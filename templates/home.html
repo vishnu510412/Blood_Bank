@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<style>
+ul li{
+   float:right;
+   list-style:none;
+   border:5px solid black;
+}
+</style>
+<body>
+<ul>
+<a href="login"><li>Log in</li></a>
+<a href="signup"><li>Sign Up</li></a>
+</ul>
+<h1>Registration form</h1>
+<form action="/" method="POST">
+{% csrf_token %}
+<p>Enter Full Name: </p>
+<input type="text" name="user1" id="">
+<p>Details of doner: </p>
+<input type="text" name="dets" id="">
+<p>Blood group: </p>
+<input type="text" name="bgroup" id="">
+<p>Enter the age </p>
+<input type="text" name="age" id="">
+<br>
+<br>
+<input type="submit">
+</form>
+</body>
+</html>
