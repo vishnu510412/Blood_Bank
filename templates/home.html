@@ -5,22 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
-</head>
-<style>
-ul li{
-   float:right;
-   list-style:none;
-   border:5px solid black;
+   <style type="text/css">
+body{
+    background-color:blue;
+    color:white;
 }
-</style>
+</style> 
+</head>
 <body>
 <ul>
-<a href="login"><li>Log in</li></a>
-<a href="signup"><li>Sign Up</li></a>
 </ul>
-<h1>Registration form</h1>
-<form action="/" method="POST">
+<h1>Blood Group Details</h1>
+<form action="/userdata/" method="POST">
 {% csrf_token %}
 <p>Enter Full Name: </p>
 <input type="text" name="user1" id="">
