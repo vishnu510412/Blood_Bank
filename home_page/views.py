@@ -1,9 +1,11 @@
 from django.contrib.messages.api import success
 from django.shortcuts import render, redirect
 from django.http import request
-from django.contrib import messages
-from django.contrib.auth.models import User, auth
+from django.contrib import messages , sessions
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 from .models import UserReg
@@ -11,49 +13,25 @@ from .models import UserReg
 
 ls = []
 # Create your views here.
-
+@login_required(login_url = '/')
 def index(request):
-
     logindata = UserReg.objects.all()
-
     return render(request, 'display.html', {'datas': logindata})
 
-
+@login_required(login_url='/')
 def userdata(request):
     if request.method == 'POST':
         name = request.POST['user1']
         details = request.POST['dets']
         bl_group = request.POST['bgroup']
         age = request.POST['age']
-        # res = {
-        #     "username": name,
-        #     "userdetails": details,
-        #     "bloodgroup": bl_group,
-        #     "userage": age
-        # }
-        logindata = UserReg.objects.create(user1=name,donardts=details,bdgroup=bl_group,age=age)
-        # logindata.save(); WS
-
-        rg = UserReg.objects.all()
-
-
-        print('Added successfully')    
-
-        return render(request,"display.html",{'datas':rg})
-        
-
-        return render(request,'display.html')
-
-        return render(request, 'display.html', {'datas': logindata})
-      
-
-        # ls.append(res)
+        UserReg.objects.create(user1=name,donardts=details,bdgroup=bl_group,age=age)
         return redirect(index)
-    return render(request, 'home.html')
-
+    return render(request,"home.html")
 
 def signup(request):
-
+    if request.user.is_authenticated:
+        return redirect(userdata)
     if request.method == 'POST':
 
         first_name = request.POST['first_name']
@@ -81,34 +59,21 @@ def signup(request):
         else:
             print('Password not matching... ')
         return redirect(index)  # go back to home page
-
-    else:
-
-        return render(request, 'signup.html')
+    return render(request, 'signup.html')
+    
 
 
-def login(request):
+def user_login(request):
 
+    if request.user.is_authenticated:
+        return redirect(index)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-
-
-    #     if username == user and password == 'testpass':
-    #         return JsonResponse(
-    #             {'success':True},
-    #             safe=False
-    #         )
-    #     else:
-    #         return JsonResponse(
-    #             {'success':False},
-    #             safe=False
-    #         )
-    # return render(request, 'login.html')
+        user = authenticate(username=username, password=password)
 
         if user is not None:
-            auth.login(request, user)
+            login(request, user)
             return JsonResponse(
                 {'success':True},
                 safe=False
@@ -121,8 +86,7 @@ def login(request):
     return render(request, 'login.html')
 
 
-
-def logout(request):
-    auth.logout(request)
-    return redirect(login)
+def user_logout(request):
+    logout(request)
+    return redirect(user_login)
 
