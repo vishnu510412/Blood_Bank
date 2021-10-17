@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-ynnz5iowa3_na35po_hyz^ls8y#!_pir89b4vqs!d0fa#o4im$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS =  [
+    'https://bloodbankdonate.herokuapp.com/'
+]
 
 
 # Application definition
